@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import EditAccount from '@/components/dashboard/EditAccount';
+import ProjectsManager from '@/components/dashboard/ProjectsManager';
 import { 
   User, 
   FolderOpen, 
@@ -64,85 +66,15 @@ const Dashboard = () => {
     switch (activeTab) {
       case 'account':
         return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold">{language === 'ar' ? 'حسابي' : 'My Account'}</h2>
-            <Card>
-              <CardHeader>
-                <CardTitle>{language === 'ar' ? 'معلومات الحساب' : 'Account Information'}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium">{language === 'ar' ? 'البريد الإلكتروني' : 'Email'}</label>
-                  <p className="text-muted-foreground">{user?.email}</p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium">{language === 'ar' ? 'تاريخ الإنشاء' : 'Created Date'}</label>
-                  <p className="text-muted-foreground">{new Date(user?.created_at).toLocaleDateString()}</p>
-                </div>
-                <Button variant="outline">
-                  <Edit className="h-4 w-4 mr-2" />
-                  {language === 'ar' ? 'تعديل البيانات' : 'Edit Information'}
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+          <EditAccount 
+            user={user} 
+            onUserUpdate={setUser}
+          />
         );
 
       case 'projects':
         return (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">{language === 'ar' ? 'مشاريعي' : 'My Projects'}</h2>
-              <Button>
-                <Plus className="h-4 w-4 mr-2" />
-                {language === 'ar' ? 'مشروع جديد' : 'New Project'}
-              </Button>
-            </div>
-            
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {[1, 2, 3].map((project) => (
-                <Card key={project}>
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle className="text-lg">
-                          {language === 'ar' ? `مشروع ${project}` : `Project ${project}`}
-                        </CardTitle>
-                        <CardDescription>
-                          {language === 'ar' ? 'موقع شركة' : 'Company Website'}
-                        </CardDescription>
-                      </div>
-                      <Badge variant={project === 1 ? 'default' : project === 2 ? 'secondary' : 'outline'}>
-                        {project === 1 
-                          ? (language === 'ar' ? 'قيد التنفيذ' : 'In Progress')
-                          : project === 2 
-                          ? (language === 'ar' ? 'مراجعة' : 'Review')
-                          : (language === 'ar' ? 'مكتمل' : 'Completed')
-                        }
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>{language === 'ar' ? 'التقدم' : 'Progress'}</span>
-                        <span>{project * 30}%</span>
-                      </div>
-                      <Progress value={project * 30} />
-                    </div>
-                    <div className="flex gap-2 mt-4">
-                      <Button size="sm" variant="outline">
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button size="sm" variant="outline">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
+          <ProjectsManager user={user} />
         );
 
       case 'referral':

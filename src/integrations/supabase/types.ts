@@ -20,6 +20,7 @@ export type Database = {
           email: string
           id: string
           password: string
+          phone: string | null
           updated_at: string
         }
         Insert: {
@@ -27,6 +28,7 @@ export type Database = {
           email: string
           id?: string
           password: string
+          phone?: string | null
           updated_at?: string
         }
         Update: {
@@ -34,9 +36,57 @@ export type Database = {
           email?: string
           id?: string
           password?: string
+          phone?: string | null
           updated_at?: string
         }
         Relationships: []
+      }
+      projects: {
+        Row: {
+          client_id: string
+          created_at: string
+          description: string | null
+          goal: string | null
+          id: string
+          name: string
+          progress: number | null
+          project_data: Json | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          description?: string | null
+          goal?: string | null
+          id?: string
+          name: string
+          progress?: number | null
+          project_data?: Json | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          description?: string | null
+          goal?: string | null
+          id?: string
+          name?: string
+          progress?: number | null
+          project_data?: Json | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "client"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

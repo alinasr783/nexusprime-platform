@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Menu, X, Globe } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { Menu, X, Globe, Sun, Moon } from 'lucide-react';
 
 const Navbar = () => {
   const { t, toggleLanguage, isRTL } = useLanguage();

@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from './Navbar';
 import Hero from './Hero';
 import Features from './Features';
-import HowItWorks from './HowItWorks';
+import HowItWorksNew from './HowItWorksNew';
 import Pricing from './Pricing';
 import FAQ from './FAQ';
 import Contact from './Contact';
@@ -14,7 +14,7 @@ const LandingPage = () => {
       <Navbar />
       <Hero />
       <Features />
-      <HowItWorks />
+      <HowItWorksNew />
       <Pricing />
       <FAQ />
       <Contact />

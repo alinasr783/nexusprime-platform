@@ -35,6 +35,52 @@ const translations = {
     'features.title': 'Powerful Features for Your Success',
     'features.subtitle': 'Everything you need to manage your projects and clients efficiently',
     
+    // Benefits
+    'benefits.title': 'Why Choose TrueFolio?',
+    'benefits.subtitle': 'Transform your business with our comprehensive platform',
+    
+    // Why Us
+    'whyus.title': 'Why TrueFolio Stands Out',
+    'whyus.subtitle': 'See what makes us the preferred choice for thousands of businesses',
+    
+    // Demo
+    'demo.title': 'See It In Action',
+    'demo.subtitle': 'Watch how TrueFolio transforms your workflow',
+    
+    // Templates
+    'templates.title': 'Template Library',
+    'templates.subtitle': 'Ready-to-use templates for every industry',
+    
+    // Referral
+    'referral.title': 'Built-in Referral Program',
+    'referral.subtitle': 'Grow your business through satisfied clients',
+    
+    // Addons
+    'addons.title': 'After-Delivery Add-ons Store',
+    'addons.subtitle': 'Extend your services with premium add-ons',
+    
+    // Testimonials
+    'testimonials.title': 'What Our Clients Say',
+    'testimonials.subtitle': 'Success stories from businesses like yours',
+    
+    // Case Studies
+    'casestudies.title': 'Success Stories',
+    'casestudies.subtitle': 'Real results from real businesses',
+    
+    // Integrations
+    'integrations.title': 'Seamless Integrations',
+    'integrations.subtitle': 'Connect with your favorite tools',
+    
+    // Blog
+    'blog.title': 'Latest Insights',
+    'blog.subtitle': 'Tips and strategies to grow your business',
+    
+    // Newsletter
+    'newsletter.title': 'Stay Updated',
+    'newsletter.subtitle': 'Get the latest tips and features delivered to your inbox',
+    'newsletter.placeholder': 'Enter your email',
+    'newsletter.cta': 'Subscribe Now',
+    
     'feature.datacenter.title': 'Client Data Center',
     'feature.datacenter.description': 'Centralized hub for all your client information, documents, and communication history.',
     
@@ -120,6 +166,52 @@ const translations = {
     // Features
     'features.title': 'مميزات قوية لنجاحك',
     'features.subtitle': 'كل ما تحتاجه لإدارة مشاريعك وعملائك بكفاءة',
+    
+    // Benefits
+    'benefits.title': 'ليه تختار TrueFolio؟',
+    'benefits.subtitle': 'حوّل أعمالك مع منصتنا الشاملة',
+    
+    // Why Us
+    'whyus.title': 'ليه TrueFolio مختلف؟',
+    'whyus.subtitle': 'شوف إيه اللي يخلينا الاختيار المفضل لآلاف الشركات',
+    
+    // Demo
+    'demo.title': 'شوفها وهي شغالة',
+    'demo.subtitle': 'اتفرج إزاي TrueFolio بيغير طريقة شغلك',
+    
+    // Templates
+    'templates.title': 'مكتبة القوالب',
+    'templates.subtitle': 'قوالب جاهزة لكل المجالات',
+    
+    // Referral
+    'referral.title': 'برنامج إحالة مدمج',
+    'referral.subtitle': 'نمي أعمالك من خلال عملاءك الراضيين',
+    
+    // Addons
+    'addons.title': 'متجر الإضافات بعد التسليم',
+    'addons.subtitle': 'وسع خدماتك بإضافات مميزة',
+    
+    // Testimonials
+    'testimonials.title': 'إيه اللي بيقوله عملاءنا',
+    'testimonials.subtitle': 'قصص نجاح من شركات زيك',
+    
+    // Case Studies
+    'casestudies.title': 'قصص النجاح',
+    'casestudies.subtitle': 'نتائج حقيقية من شركات حقيقية',
+    
+    // Integrations
+    'integrations.title': 'تكاملات سلسة',
+    'integrations.subtitle': 'اتصل بأدواتك المفضلة',
+    
+    // Blog
+    'blog.title': 'آخر الرؤى',
+    'blog.subtitle': 'نصائح واستراتيجيات لتنمية أعمالك',
+    
+    // Newsletter
+    'newsletter.title': 'خليك متابع',
+    'newsletter.subtitle': 'احصل على آخر النصائح والميزات في إيميلك',
+    'newsletter.placeholder': 'اكتب إيميلك',
+    'newsletter.cta': 'اشترك دلوقتي',
     
     'feature.datacenter.title': 'مركز بيانات العملاء',
     'feature.datacenter.description': 'مركز موحد لجميع معلومات عملائك والمستندات وتاريخ التواصل.',

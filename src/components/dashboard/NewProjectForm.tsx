@@ -1293,7 +1293,7 @@ const NewProjectForm = ({ user, onProjectCreated, onCancel }: NewProjectFormProp
               <Textarea
                 value={projectData.metaDescription}
                 onChange={(e) => handleInputChange('metaDescription', e.target.value)}
-                placeholder={language === 'ar' ? 'وصف مختصر للموقع يظهر في نتائج البحث (150-160 حرف)' : 'Brief site description for search results (150-160 chars)')}
+                placeholder={language === 'ar' ? 'وصف مختصر للموقع يظهر في نتائج البحث' : 'Brief site description for search results (150-160 chars)'}
                 rows={2}
                 maxLength={160}
               />

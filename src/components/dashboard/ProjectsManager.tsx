@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -129,9 +130,11 @@ const ProjectsManager = ({ user }: ProjectsManagerProps) => {
             <Progress value={project.progress} />
           </div>
           <div className="flex gap-2 mt-4">
-            <Button size="sm" variant="outline">
-              <Eye className="h-4 w-4 mr-1" />
-              {language === 'ar' ? 'عرض' : 'View'}
+            <Button size="sm" variant="outline" asChild>
+              <Link to={`/project/${project.id}`}>
+                <Eye className="h-4 w-4 mr-1" />
+                {language === 'ar' ? 'عرض' : 'View'}
+              </Link>
             </Button>
             <Button size="sm" variant="outline">
               <MoreHorizontal className="h-4 w-4" />

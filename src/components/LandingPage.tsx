@@ -12,12 +12,22 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <Hero />
-      <Features />
+      <section id="hero">
+        <Hero />
+      </section>
+      <section id="features">
+        <Features />
+      </section>
       <HowItWorksNew />
-      <Pricing />
-      <FAQ />
-      <Contact />
+      <section id="pricing">
+        <Pricing />
+      </section>
+      <section id="faq">
+        <FAQ />
+      </section>
+      <section id="contact">
+        <Contact />
+      </section>
       <Footer />
     </div>
   );

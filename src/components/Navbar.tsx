@@ -10,12 +10,19 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { key: 'nav.home', href: '#home' },
+    { key: 'nav.home', href: '#hero' },
     { key: 'nav.features', href: '#features' },
     { key: 'nav.pricing', href: '#pricing' },
-    { key: 'nav.about', href: '#about' },
+    { key: 'nav.faq', href: '#faq' },
     { key: 'nav.contact', href: '#contact' },
   ];
+
+  const handleNavClick = (href: string) => {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-nav">
@@ -32,13 +39,13 @@ const Navbar = () => {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               {navItems.map((item) => (
-                <a
+                <button
                   key={item.key}
-                  href={item.href}
+                  onClick={() => handleNavClick(item.href)}
                   className="text-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300"
                 >
                   {t(item.key)}
-                </a>
+                </button>
               ))}
             </div>
           </div>
@@ -67,7 +74,11 @@ const Navbar = () => {
             <Button variant="ghost" size="sm">
               {t('nav.login')}
             </Button>
-            <Button variant="hero" size="sm">
+            <Button 
+              variant="hero" 
+              size="sm"
+              onClick={() => window.location.href = '/signup'}
+            >
               {t('nav.signup')}
             </Button>
           </div>
@@ -108,21 +119,27 @@ const Navbar = () => {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-card/95 backdrop-blur-xl rounded-lg mt-2 border border-border/50 shadow-large">
               {navItems.map((item) => (
-                <a
+                <button
                   key={item.key}
-                  href={item.href}
-                  className="text-foreground hover:text-primary block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => {
+                    handleNavClick(item.href);
+                    setIsMenuOpen(false);
+                  }}
+                  className="text-foreground hover:text-primary block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 w-full text-left"
                 >
                   {t(item.key)}
-                </a>
+                </button>
               ))}
               <div className="border-t border-border pt-4 pb-3">
                 <div className="flex flex-col space-y-2">
                   <Button variant="ghost" size="sm" className="justify-start">
                     {t('nav.login')}
                   </Button>
-                  <Button variant="hero" size="sm">
+                  <Button 
+                    variant="hero" 
+                    size="sm"
+                    onClick={() => window.location.href = '/signup'}
+                  >
                     {t('nav.signup')}
                   </Button>
                 </div>

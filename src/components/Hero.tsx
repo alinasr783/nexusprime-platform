@@ -54,7 +54,7 @@ const Hero = () => {
           {/* Trust Indicators */}
           <div className="mt-16 animate-fade-in" style={{ animationDelay: '0.5s' }}>
             <p className="text-white/60 text-sm mb-8">
-              Trusted by 10,000+ businesses worldwide
+              {t('hero.trust')}
             </p>
             
             {/* Logo Placeholder Grid */}
@@ -65,7 +65,7 @@ const Hero = () => {
                   className="h-12 bg-white/10 rounded-lg flex items-center justify-center backdrop-blur-sm"
                 >
                   <div className="text-white/80 font-semibold text-sm">
-                    Logo {i}
+                    {t('hero.logo')} {i}
                   </div>
                 </div>
               ))}

@@ -24,10 +24,12 @@ const translations = {
     'nav.language': 'عربي',
     
     // Hero Section
-    'hero.title': 'Complete SaaS Platform for Modern Businesses',
-    'hero.subtitle': 'Streamline your workflow with our comprehensive suite of tools including Client Data Center, Project Tracker, Template Library, and much more.',
-    'hero.cta.primary': 'Start Free Trial',
-    'hero.cta.secondary': 'Watch Demo',
+    'hero.title': 'Manage your projects from idea to delivery — all in one place',
+    'hero.subtitle': "Not just a design or a website... it's a complete experience: from sending your idea to going live — tracking every step in real time.",
+    'hero.cta.primary': 'Start Now',
+    'hero.cta.secondary': 'Contact Us',
+    'hero.trust': 'Trusted by 10,000+ businesses worldwide',
+    'hero.logo': 'Logo',
     
     // Features
     'features.title': 'Powerful Features for Your Success',
@@ -108,10 +110,12 @@ const translations = {
     'nav.language': 'English',
     
     // Hero Section
-    'hero.title': 'منصة SaaS متكاملة للأعمال الحديثة',
-    'hero.subtitle': 'بسّط سير العمل مع مجموعتنا الشاملة من الأدوات بما في ذلك مركز بيانات العملاء ومتتبع المشاريع ومكتبة القوالب والمزيد.',
-    'hero.cta.primary': 'ابدأ التجربة المجانية',
-    'hero.cta.secondary': 'شاهد العرض التوضيحي',
+    'hero.title': 'ادارة مشاريعك من اول الفكرة لحد التسليم - كله في مكان واحد',
+    'hero.subtitle': 'مش مجرد تصميم او موقع... ديه تجربة كاملة : من اول ما تبعت فكرتك لحد ما مشروعك يبقى اونلاين - وانت متابع كل خطوة لحظة بلحظة',
+    'hero.cta.primary': 'ابدأ الآن',
+    'hero.cta.secondary': 'تواصل معانا',
+    'hero.trust': 'موثوق به من أكثر من 10,000 شركة حول العالم',
+    'hero.logo': 'شعار',
     
     // Features
     'features.title': 'مميزات قوية لنجاحك',

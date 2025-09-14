@@ -134,7 +134,7 @@
   }
   
   .glass-nav {
-    @apply bg-white/80 backdrop-blur-xl border-b border-white/20;
+    @apply bg-background/70 backdrop-blur-xl border-b border-border/50;
   }
   
   /* Gradient Backgrounds */

@@ -71,7 +71,11 @@ const Navbar = () => {
             </button>
 
             {/* Auth Buttons */}
-            <Button variant="ghost" size="sm">
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={() => window.location.href = '/login'}
+            >
               {t('nav.login')}
             </Button>
             <Button 
@@ -132,7 +136,12 @@ const Navbar = () => {
               ))}
               <div className="border-t border-border pt-4 pb-3">
                 <div className="flex flex-col space-y-2">
-                  <Button variant="ghost" size="sm" className="justify-start">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="justify-start"
+                    onClick={() => window.location.href = '/login'}
+                  >
                     {t('nav.login')}
                   </Button>
                   <Button 

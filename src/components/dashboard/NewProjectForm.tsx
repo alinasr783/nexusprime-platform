@@ -581,6 +581,958 @@ const NewProjectForm = ({ user, onProjectCreated, onCancel }: NewProjectFormProp
           </div>
         );
 
+      case 4: // Project Type Specific Details
+        return (
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold">{language === 'ar' ? 'تفاصيل حسب نوع المشروع' : 'Project Type Specific Details'}</h3>
+            
+            {projectData.projectType === 'portfolio' && (
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'عدد الصفحات المتوقعة' : 'Expected Number of Pages'}</Label>
+                  <Select value={projectData.portfolioDetails.pagesCount} onValueChange={(value) => handleInputChange('portfolioDetails.pagesCount', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={language === 'ar' ? 'اختر العدد' : 'Select count'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="3-5">{language === 'ar' ? '3-5 صفحات' : '3-5 Pages'}</SelectItem>
+                      <SelectItem value="5-10">{language === 'ar' ? '5-10 صفحات' : '5-10 Pages'}</SelectItem>
+                      <SelectItem value="10+">{language === 'ar' ? '10+ صفحات' : '10+ Pages'}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'الأقسام الأساسية' : 'Main Sections'}</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { id: 'about', label: language === 'ar' ? 'نبذة عني' : 'About Me' },
+                      { id: 'work', label: language === 'ar' ? 'أعمالي' : 'My Work' },
+                      { id: 'contact', label: language === 'ar' ? 'تواصل معي' : 'Contact Me' },
+                      { id: 'services', label: language === 'ar' ? 'خدماتي' : 'Services' },
+                      { id: 'testimonials', label: language === 'ar' ? 'آراء العملاء' : 'Testimonials' },
+                      { id: 'blog', label: language === 'ar' ? 'مدونة' : 'Blog' }
+                    ].map((section) => (
+                      <div key={section.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={section.id}
+                          checked={projectData.portfolioDetails.sections.includes(section.id)}
+                          onCheckedChange={() => handleArrayToggle('portfolioDetails.sections', section.id)}
+                        />
+                        <Label htmlFor={section.id} className="text-sm">{section.label}</Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'المشاريع السابقة' : 'Previous Projects'}</Label>
+                  <Textarea
+                    value={projectData.portfolioDetails.previousProjects}
+                    onChange={(e) => handleInputChange('portfolioDetails.previousProjects', e.target.value)}
+                    placeholder={language === 'ar' ? 'اكتب عن مشاريعك السابقة (عنوان - وصف - رابط)' : 'Write about your previous projects (title - description - link)'}
+                    rows={4}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'الدعوة للعمل الأساسية' : 'Main Call to Action'}</Label>
+                  <Select value={projectData.portfolioDetails.mainCTA} onValueChange={(value) => handleInputChange('portfolioDetails.mainCTA', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={language === 'ar' ? 'اختر الدعوة للعمل' : 'Select CTA'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="contact">{language === 'ar' ? 'اتصل بي' : 'Contact Me'}</SelectItem>
+                      <SelectItem value="hire">{language === 'ar' ? 'وظفني' : 'Hire Me'}</SelectItem>
+                      <SelectItem value="download_cv">{language === 'ar' ? 'حمل السيرة الذاتية' : 'Download CV'}</SelectItem>
+                      <SelectItem value="schedule_call">{language === 'ar' ? 'احجز مكالمة' : 'Schedule Call'}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            )}
+
+            {projectData.projectType === 'ecommerce' && (
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>{language === 'ar' ? 'عدد المنتجات المبدئي' : 'Initial Product Count'}</Label>
+                    <Input
+                      value={projectData.ecommerceDetails.productsCount}
+                      onChange={(e) => handleInputChange('ecommerceDetails.productsCount', e.target.value)}
+                      placeholder={language === 'ar' ? 'مثال: 50 منتج' : 'Example: 50 products'}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'فئات المنتجات' : 'Product Categories'}</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { id: 'electronics', label: language === 'ar' ? 'إلكترونيات' : 'Electronics' },
+                      { id: 'fashion', label: language === 'ar' ? 'أزياء' : 'Fashion' },
+                      { id: 'home', label: language === 'ar' ? 'منزل وحديقة' : 'Home & Garden' },
+                      { id: 'books', label: language === 'ar' ? 'كتب' : 'Books' },
+                      { id: 'sports', label: language === 'ar' ? 'رياضة' : 'Sports' },
+                      { id: 'beauty', label: language === 'ar' ? 'جمال وعناية' : 'Beauty & Care' }
+                    ].map((category) => (
+                      <div key={category.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={category.id}
+                          checked={projectData.ecommerceDetails.categories.includes(category.id)}
+                          onCheckedChange={() => handleArrayToggle('ecommerceDetails.categories', category.id)}
+                        />
+                        <Label htmlFor={category.id} className="text-sm">{category.label}</Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'طرق الدفع' : 'Payment Methods'}</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { id: 'cash', label: language === 'ar' ? 'كاش عند الاستلام' : 'Cash on Delivery' },
+                      { id: 'visa', label: language === 'ar' ? 'فيزا/ماستركارد' : 'Visa/Mastercard' },
+                      { id: 'paypal', label: 'PayPal' },
+                      { id: 'fawry', label: language === 'ar' ? 'فوري' : 'Fawry' },
+                      { id: 'vodafone_cash', label: language === 'ar' ? 'فودافون كاش' : 'Vodafone Cash' }
+                    ].map((payment) => (
+                      <div key={payment.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={payment.id}
+                          checked={projectData.ecommerceDetails.paymentMethods.includes(payment.id)}
+                          onCheckedChange={() => handleArrayToggle('ecommerceDetails.paymentMethods', payment.id)}
+                        />
+                        <Label htmlFor={payment.id} className="text-sm">{payment.label}</Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'تفاصيل الشحن' : 'Shipping Details'}</Label>
+                  <Select value={projectData.ecommerceDetails.shipping} onValueChange={(value) => handleInputChange('ecommerceDetails.shipping', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={language === 'ar' ? 'اختر نوع الشحن' : 'Select shipping type'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="local_free">{language === 'ar' ? 'شحن محلي مجاني' : 'Free Local Shipping'}</SelectItem>
+                      <SelectItem value="local_paid">{language === 'ar' ? 'شحن محلي مدفوع' : 'Paid Local Shipping'}</SelectItem>
+                      <SelectItem value="international">{language === 'ar' ? 'شحن دولي' : 'International Shipping'}</SelectItem>
+                      <SelectItem value="pickup">{language === 'ar' ? 'استلام من المتجر' : 'Store Pickup'}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="discounts"
+                    checked={projectData.ecommerceDetails.discounts}
+                    onCheckedChange={(checked) => handleInputChange('ecommerceDetails.discounts', checked)}
+                  />
+                  <Label htmlFor="discounts">{language === 'ar' ? 'نظام عروض وخصومات (كوبونات - كاش باك)' : 'Discounts & Offers System (Coupons - Cashback)'}</Label>
+                </div>
+              </div>
+            )}
+
+            {projectData.projectType === 'education' && (
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'نوع الكورسات' : 'Course Type'}</Label>
+                  <Select value={projectData.educationDetails.courseType} onValueChange={(value) => handleInputChange('educationDetails.courseType', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={language === 'ar' ? 'اختر نوع الكورس' : 'Select course type'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="video">{language === 'ar' ? 'فيديوهات مسجلة' : 'Recorded Videos'}</SelectItem>
+                      <SelectItem value="live">{language === 'ar' ? 'دروس مباشرة (Zoom/Teams)' : 'Live Sessions (Zoom/Teams)'}</SelectItem>
+                      <SelectItem value="articles">{language === 'ar' ? 'مقالات تعليمية' : 'Educational Articles'}</SelectItem>
+                      <SelectItem value="pdf">{language === 'ar' ? 'ملفات PDF' : 'PDF Files'}</SelectItem>
+                      <SelectItem value="mixed">{language === 'ar' ? 'مختلط' : 'Mixed'}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'خطة الأسعار' : 'Pricing Plan'}</Label>
+                  <Select value={projectData.educationDetails.pricingPlan} onValueChange={(value) => handleInputChange('educationDetails.pricingPlan', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={language === 'ar' ? 'اختر خطة الأسعار' : 'Select pricing plan'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="individual">{language === 'ar' ? 'كورس فردي' : 'Individual Course'}</SelectItem>
+                      <SelectItem value="monthly">{language === 'ar' ? 'اشتراك شهري' : 'Monthly Subscription'}</SelectItem>
+                      <SelectItem value="yearly">{language === 'ar' ? 'اشتراك سنوي' : 'Yearly Subscription'}</SelectItem>
+                      <SelectItem value="free">{language === 'ar' ? 'مجاني مع إعلانات' : 'Free with Ads'}</SelectItem>
+                      <SelectItem value="freemium">{language === 'ar' ? 'فريميوم (أساسي مجاني + مدفوع)' : 'Freemium (Basic Free + Paid)'}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'صلاحيات المستخدمين' : 'User Roles'}</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { id: 'student', label: language === 'ar' ? 'طالب' : 'Student' },
+                      { id: 'teacher', label: language === 'ar' ? 'مدرس' : 'Teacher' },
+                      { id: 'admin', label: language === 'ar' ? 'مدير' : 'Admin' },
+                      { id: 'moderator', label: language === 'ar' ? 'مشرف' : 'Moderator' }
+                    ].map((role) => (
+                      <div key={role.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={role.id}
+                          checked={projectData.educationDetails.userRoles.includes(role.id)}
+                          onCheckedChange={() => handleArrayToggle('educationDetails.userRoles', role.id)}
+                        />
+                        <Label htmlFor={role.id} className="text-sm">{role.label}</Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="certificates"
+                    checked={projectData.educationDetails.certificates}
+                    onCheckedChange={(checked) => handleInputChange('educationDetails.certificates', checked)}
+                  />
+                  <Label htmlFor="certificates">{language === 'ar' ? 'شهادات إلكترونية عند الإكمال' : 'Electronic Certificates upon Completion'}</Label>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'مكتبة المحتوى المبدئية' : 'Initial Content Library'}</Label>
+                  <Textarea
+                    value={projectData.educationDetails.contentLibrary}
+                    onChange={(e) => handleInputChange('educationDetails.contentLibrary', e.target.value)}
+                    placeholder={language === 'ar' ? 'وصف المحتوى التعليمي المتوفر (عناوين الكورسات - عدد الدروس)' : 'Description of available educational content (course titles - number of lessons)'}
+                    rows={3}
+                  />
+                </div>
+              </div>
+            )}
+
+            {projectData.projectType === 'company' && (
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'عدد الموظفين' : 'Number of Employees'}</Label>
+                  <Select value={projectData.companyDetails.employeeCount} onValueChange={(value) => handleInputChange('companyDetails.employeeCount', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={language === 'ar' ? 'اختر العدد' : 'Select count'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="1-10">{language === 'ar' ? '1-10 موظفين' : '1-10 Employees'}</SelectItem>
+                      <SelectItem value="11-50">{language === 'ar' ? '11-50 موظف' : '11-50 Employees'}</SelectItem>
+                      <SelectItem value="51-200">{language === 'ar' ? '51-200 موظف' : '51-200 Employees'}</SelectItem>
+                      <SelectItem value="200+">{language === 'ar' ? '200+ موظف' : '200+ Employees'}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'أقسام الموقع' : 'Website Sections'}</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { id: 'services', label: language === 'ar' ? 'الخدمات' : 'Services' },
+                      { id: 'team', label: language === 'ar' ? 'الفريق' : 'Team' },
+                      { id: 'testimonials', label: language === 'ar' ? 'آراء العملاء' : 'Testimonials' },
+                      { id: 'blog', label: language === 'ar' ? 'مدونة' : 'Blog' },
+                      { id: 'careers', label: language === 'ar' ? 'الوظائف' : 'Careers' },
+                      { id: 'contact', label: language === 'ar' ? 'تواصل معنا' : 'Contact Us' }
+                    ].map((section) => (
+                      <div key={section.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={section.id}
+                          checked={projectData.companyDetails.sections.includes(section.id)}
+                          onCheckedChange={() => handleArrayToggle('companyDetails.sections', section.id)}
+                        />
+                        <Label htmlFor={section.id} className="text-sm">{section.label}</Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'الدعوة للعمل الأساسية' : 'Main Call to Action'}</Label>
+                  <Select value={projectData.companyDetails.mainCTA} onValueChange={(value) => handleInputChange('companyDetails.mainCTA', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={language === 'ar' ? 'اختر الدعوة للعمل' : 'Select CTA'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="book_call">{language === 'ar' ? 'احجز مكالمة' : 'Book a Call'}</SelectItem>
+                      <SelectItem value="get_quote">{language === 'ar' ? 'احصل على عرض سعر' : 'Get a Quote'}</SelectItem>
+                      <SelectItem value="contact_us">{language === 'ar' ? 'تواصل معنا' : 'Contact Us'}</SelectItem>
+                      <SelectItem value="start_project">{language === 'ar' ? 'ابدأ مشروعك' : 'Start Your Project'}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'اللغات المطلوبة' : 'Required Languages'}</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { id: 'arabic', label: language === 'ar' ? 'العربية' : 'Arabic' },
+                      { id: 'english', label: language === 'ar' ? 'الإنجليزية' : 'English' },
+                      { id: 'french', label: language === 'ar' ? 'الفرنسية' : 'French' },
+                      { id: 'german', label: language === 'ar' ? 'الألمانية' : 'German' }
+                    ].map((lang) => (
+                      <div key={lang.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={lang.id}
+                          checked={projectData.companyDetails.languages.includes(lang.id)}
+                          onCheckedChange={() => handleArrayToggle('companyDetails.languages', lang.id)}
+                        />
+                        <Label htmlFor={lang.id} className="text-sm">{lang.label}</Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {projectData.projectType === 'blog' && (
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'أقسام المدونة' : 'Blog Categories'}</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { id: 'politics', label: language === 'ar' ? 'سياسة' : 'Politics' },
+                      { id: 'economy', label: language === 'ar' ? 'اقتصاد' : 'Economy' },
+                      { id: 'technology', label: language === 'ar' ? 'تكنولوجيا' : 'Technology' },
+                      { id: 'entertainment', label: language === 'ar' ? 'ترفيه' : 'Entertainment' },
+                      { id: 'sports', label: language === 'ar' ? 'رياضة' : 'Sports' },
+                      { id: 'lifestyle', label: language === 'ar' ? 'نمط حياة' : 'Lifestyle' }
+                    ].map((category) => (
+                      <div key={category.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={category.id}
+                          checked={projectData.blogDetails.categories.includes(category.id)}
+                          onCheckedChange={() => handleArrayToggle('blogDetails.categories', category.id)}
+                        />
+                        <Label htmlFor={category.id} className="text-sm">{category.label}</Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="adsSystem"
+                    checked={projectData.blogDetails.adsSystem}
+                    onCheckedChange={(checked) => handleInputChange('blogDetails.adsSystem', checked)}
+                  />
+                  <Label htmlFor="adsSystem">{language === 'ar' ? 'نظام إعلانات (Google AdSense)' : 'Advertisement System (Google AdSense)'}</Label>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="membership"
+                    checked={projectData.blogDetails.membership}
+                    onCheckedChange={(checked) => handleInputChange('blogDetails.membership', checked)}
+                  />
+                  <Label htmlFor="membership">{language === 'ar' ? 'عضويات مدفوعة (محتوى مميز)' : 'Paid Memberships (Premium Content)'}</Label>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="newsletter"
+                    checked={projectData.blogDetails.newsletter}
+                    onCheckedChange={(checked) => handleInputChange('blogDetails.newsletter', checked)}
+                  />
+                  <Label htmlFor="newsletter">{language === 'ar' ? 'نشرة إخبارية (Newsletter)' : 'Newsletter'}</Label>
+                </div>
+              </div>
+            )}
+
+            {projectData.projectType === 'saas' && (
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'وصف الخدمة' : 'Service Description'}</Label>
+                  <Textarea
+                    value={projectData.saasDetails.serviceDescription}
+                    onChange={(e) => handleInputChange('saasDetails.serviceDescription', e.target.value)}
+                    placeholder={language === 'ar' ? 'اشرح الخدمة التي يقدمها التطبيق' : 'Explain the service your app provides'}
+                    rows={3}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'أهم الميزات' : 'Key Features'}</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { id: 'dashboard', label: language === 'ar' ? 'لوحة تحكم' : 'Dashboard' },
+                      { id: 'analytics', label: language === 'ar' ? 'تحليلات' : 'Analytics' },
+                      { id: 'api', label: 'API Integration' },
+                      { id: 'reports', label: language === 'ar' ? 'تقارير' : 'Reports' },
+                      { id: 'notifications', label: language === 'ar' ? 'إشعارات' : 'Notifications' },
+                      { id: 'collaboration', label: language === 'ar' ? 'تعاون الفريق' : 'Team Collaboration' }
+                    ].map((feature) => (
+                      <div key={feature.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={feature.id}
+                          checked={projectData.saasDetails.mainFeatures.includes(feature.id)}
+                          onCheckedChange={() => handleArrayToggle('saasDetails.mainFeatures', feature.id)}
+                        />
+                        <Label htmlFor={feature.id} className="text-sm">{feature.label}</Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'خطط الاشتراك' : 'Subscription Plans'}</Label>
+                  <Select value={projectData.saasDetails.subscriptionPlans} onValueChange={(value) => handleInputChange('saasDetails.subscriptionPlans', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={language === 'ar' ? 'اختر نوع الخطط' : 'Select plan type'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="free_basic_premium">{language === 'ar' ? 'مجاني - أساسي - مميز' : 'Free - Basic - Premium'}</SelectItem>
+                      <SelectItem value="basic_premium">{language === 'ar' ? 'أساسي - مميز' : 'Basic - Premium'}</SelectItem>
+                      <SelectItem value="single_premium">{language === 'ar' ? 'خطة واحدة مميزة' : 'Single Premium Plan'}</SelectItem>
+                      <SelectItem value="usage_based">{language === 'ar' ? 'حسب الاستخدام' : 'Usage-based'}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'طريقة التسجيل' : 'Registration Method'}</Label>
+                  <Select value={projectData.saasDetails.registrationMethod} onValueChange={(value) => handleInputChange('saasDetails.registrationMethod', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={language === 'ar' ? 'اختر طريقة التسجيل' : 'Select registration method'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="email">{language === 'ar' ? 'بريد إلكتروني وكلمة مرور' : 'Email & Password'}</SelectItem>
+                      <SelectItem value="google">{language === 'ar' ? 'تسجيل دخول بجوجل' : 'Google Login'}</SelectItem>
+                      <SelectItem value="social">{language === 'ar' ? 'وسائل التواصل الاجتماعي' : 'Social Media'}</SelectItem>
+                      <SelectItem value="sso">{language === 'ar' ? 'تسجيل دخول موحد (SSO)' : 'Single Sign-On (SSO)'}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'التكاملات المطلوبة' : 'Required Integrations'}</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { id: 'stripe', label: 'Stripe Payment' },
+                      { id: 'mailchimp', label: 'MailChimp' },
+                      { id: 'slack', label: 'Slack' },
+                      { id: 'zapier', label: 'Zapier' },
+                      { id: 'google_analytics', label: 'Google Analytics' },
+                      { id: 'custom_api', label: language === 'ar' ? 'API مخصص' : 'Custom API' }
+                    ].map((integration) => (
+                      <div key={integration.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={integration.id}
+                          checked={projectData.saasDetails.apis.includes(integration.id)}
+                          onCheckedChange={() => handleArrayToggle('saasDetails.apis', integration.id)}
+                        />
+                        <Label htmlFor={integration.id} className="text-sm">{integration.label}</Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {!projectData.projectType && (
+              <div className="text-center py-8 text-muted-foreground">
+                {language === 'ar' ? 'اختر نوع المشروع في الخطوة السابقة أولاً' : 'Please select a project type in the previous step first'}
+              </div>
+            )}
+          </div>
+        );
+
+      case 5: // Technical Structure
+        return (
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold">{language === 'ar' ? 'البنية التقنية' : 'Technical Structure'}</h3>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>{language === 'ar' ? 'هل عندك دومين؟' : 'Do you have a domain?'}</Label>
+                <Select value={projectData.hasDomain} onValueChange={(value) => handleInputChange('hasDomain', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder={language === 'ar' ? 'اختر' : 'Select'} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="yes">{language === 'ar' ? 'نعم' : 'Yes'}</SelectItem>
+                    <SelectItem value="no">{language === 'ar' ? 'لا' : 'No'}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {projectData.hasDomain === 'yes' && (
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'اسم الدومين' : 'Domain Name'}</Label>
+                  <Input
+                    value={projectData.domainName}
+                    onChange={(e) => handleInputChange('domainName', e.target.value)}
+                    placeholder="example.com"
+                  />
+                </div>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'هل عندك استضافة؟' : 'Do you have hosting?'}</Label>
+              <Select value={projectData.hasHosting} onValueChange={(value) => handleInputChange('hasHosting', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder={language === 'ar' ? 'اختر' : 'Select'} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="yes">{language === 'ar' ? 'نعم' : 'Yes'}</SelectItem>
+                  <SelectItem value="no">{language === 'ar' ? 'لا' : 'No'}</SelectItem>
+                  <SelectItem value="need_recommendation">{language === 'ar' ? 'أحتاج توصية' : 'Need Recommendation'}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {projectData.hasHosting === 'yes' && (
+              <div className="space-y-2">
+                <Label>{language === 'ar' ? 'نوع الاستضافة' : 'Hosting Type'}</Label>
+                <Select value={projectData.hostingType} onValueChange={(value) => handleInputChange('hostingType', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder={language === 'ar' ? 'اختر النوع' : 'Select type'} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="shared">{language === 'ar' ? 'استضافة مشتركة' : 'Shared Hosting'}</SelectItem>
+                    <SelectItem value="vps">{language === 'ar' ? 'خادم افتراضي (VPS)' : 'VPS'}</SelectItem>
+                    <SelectItem value="dedicated">{language === 'ar' ? 'خادم مخصص' : 'Dedicated Server'}</SelectItem>
+                    <SelectItem value="cloud">{language === 'ar' ? 'استضافة سحابية' : 'Cloud Hosting'}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'التكنولوجيا المفضلة' : 'Technology Preference'}</Label>
+              <Select value={projectData.techPreference} onValueChange={(value) => handleInputChange('techPreference', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder={language === 'ar' ? 'اختر التكنولوجيا' : 'Select technology'} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="wordpress">{language === 'ar' ? 'وردبريس' : 'WordPress'}</SelectItem>
+                  <SelectItem value="react">{language === 'ar' ? 'React (تطبيق حديث)' : 'React (Modern App)'}</SelectItem>
+                  <SelectItem value="nextjs">{language === 'ar' ? 'Next.js (أداء عالي)' : 'Next.js (High Performance)'}</SelectItem>
+                  <SelectItem value="shopify">{language === 'ar' ? 'Shopify (متجر)' : 'Shopify (Store)'}</SelectItem>
+                  <SelectItem value="custom">{language === 'ar' ? 'مخصص' : 'Custom'}</SelectItem>
+                  <SelectItem value="no_preference">{language === 'ar' ? 'لا تفضيل - اختر الأفضل' : 'No Preference - Choose Best'}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="mailServer"
+                checked={projectData.needsMailServer}
+                onCheckedChange={(checked) => handleInputChange('needsMailServer', checked)}
+              />
+              <Label htmlFor="mailServer">{language === 'ar' ? 'أحتاج خادم بريد إلكتروني مخصص' : 'Need Custom Mail Server'}</Label>
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'التكاملات المطلوبة' : 'Required Integrations'}</Label>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { id: 'crm', label: 'CRM System' },
+                  { id: 'zapier', label: 'Zapier' },
+                  { id: 'google_analytics', label: 'Google Analytics' },
+                  { id: 'facebook_pixel', label: 'Facebook Pixel' },
+                  { id: 'mailchimp', label: 'MailChimp' },
+                  { id: 'whatsapp_api', label: 'WhatsApp API' }
+                ].map((integration) => (
+                  <div key={integration.id} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={integration.id}
+                      checked={projectData.technicalIntegrations.includes(integration.id)}
+                      onCheckedChange={() => handleArrayToggle('technicalIntegrations', integration.id)}
+                    />
+                    <Label htmlFor={integration.id} className="text-sm">{integration.label}</Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 6: // Content
+        return (
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold">{language === 'ar' ? 'المحتوى' : 'Content'}</h3>
+            
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'شعارات/سلوغان البراند' : 'Brand Slogans'}</Label>
+              <Textarea
+                value={projectData.brandSlogans}
+                onChange={(e) => handleInputChange('brandSlogans', e.target.value)}
+                placeholder={language === 'ar' ? 'مثال: "نحن نبني المستقبل معًا"' : 'Example: "Building the future together"'}
+                rows={2}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'وصف البراند التفصيلي' : 'Detailed Brand Description'}</Label>
+              <Textarea
+                value={projectData.brandDescription}
+                onChange={(e) => handleInputChange('brandDescription', e.target.value)}
+                placeholder={language === 'ar' ? 'اكتب وصفًا شاملاً عن البراند، قيمه، ورؤيته' : 'Write a comprehensive description about the brand, its values, and vision'}
+                rows={4}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'آراء العملاء/المراجعات' : 'Testimonials/Reviews'}</Label>
+              <Textarea
+                value={projectData.testimonials}
+                onChange={(e) => handleInputChange('testimonials', e.target.value)}
+                placeholder={language === 'ar' ? 'أسماء العملاء + آرائهم + تقييماتهم' : 'Customer names + their reviews + ratings'}
+                rows={3}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'أعضاء الفريق' : 'Team Members'}</Label>
+              <Textarea
+                value={projectData.projectTeamMembers}
+                onChange={(e) => handleInputChange('projectTeamMembers', e.target.value)}
+                placeholder={language === 'ar' ? 'الاسم - المنصب - نبذة قصيرة - LinkedIn' : 'Name - Position - Brief bio - LinkedIn'}
+                rows={3}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'المحتوى الجاهز (رابط أو ملف)' : 'Ready Content (Link or File)'}</Label>
+              <Input
+                value={projectData.existingContentUrl}
+                onChange={(e) => handleInputChange('existingContentUrl', e.target.value)}
+                placeholder={language === 'ar' ? 'رابط Google Drive أو Dropbox للمحتوى' : 'Google Drive or Dropbox link for content'}
+              />
+            </div>
+          </div>
+        );
+
+      case 7: // User Experience
+        return (
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold">{language === 'ar' ? 'تجربة المستخدم' : 'User Experience'}</h3>
+            
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'تفضيل ستايل الواجهة' : 'Interface Style Preference'}</Label>
+              <Select value={projectData.themePreference} onValueChange={(value) => handleInputChange('themePreference', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder={language === 'ar' ? 'اختر الستايل' : 'Select style'} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="dark">{language === 'ar' ? 'داكن' : 'Dark'}</SelectItem>
+                  <SelectItem value="light">{language === 'ar' ? 'فاتح' : 'Light'}</SelectItem>
+                  <SelectItem value="both">{language === 'ar' ? 'كلاهما (مع إمكانية التبديل)' : 'Both (with toggle)'}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'المزاج العام للتصميم' : 'Overall Design Mood'}</Label>
+              <Select value={projectData.mood} onValueChange={(value) => handleInputChange('mood', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder={language === 'ar' ? 'اختر المزاج' : 'Select mood'} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="fun">{language === 'ar' ? 'مرح' : 'Fun'}</SelectItem>
+                  <SelectItem value="corporate">{language === 'ar' ? 'مهني/شركات' : 'Corporate'}</SelectItem>
+                  <SelectItem value="luxury">{language === 'ar' ? 'فاخر' : 'Luxury'}</SelectItem>
+                  <SelectItem value="minimal">{language === 'ar' ? 'بسيط/مينيمال' : 'Minimal'}</SelectItem>
+                  <SelectItem value="colorful">{language === 'ar' ? 'ملون/حيوي' : 'Colorful'}</SelectItem>
+                  <SelectItem value="tech">{language === 'ar' ? 'تقني/مستقبلي' : 'Tech/Futuristic'}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'تدفق المستخدم المفضل' : 'Preferred User Flow'}</Label>
+              <Select value={projectData.userFlow} onValueChange={(value) => handleInputChange('userFlow', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder={language === 'ar' ? 'اختر التدفق' : 'Select flow'} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="single_scroll">{language === 'ar' ? 'صفحة واحدة تمرير طويل' : 'Single Page Long Scroll'}</SelectItem>
+                  <SelectItem value="multi_pages">{language === 'ar' ? 'صفحات متعددة' : 'Multiple Pages'}</SelectItem>
+                  <SelectItem value="wizard">{language === 'ar' ? 'خطوات متسلسلة (Wizard)' : 'Wizard Flow'}</SelectItem>
+                  <SelectItem value="dashboard">{language === 'ar' ? 'لوحة تحكم' : 'Dashboard'}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'الدعوة للعمل الرئيسية' : 'Main Call to Action'}</Label>
+              <Input
+                value={projectData.mainCTA}
+                onChange={(e) => handleInputChange('mainCTA', e.target.value)}
+                placeholder={language === 'ar' ? 'مثال: "ابدأ الآن مجاناً"' : 'Example: "Start Free Now"'}
+              />
+            </div>
+          </div>
+        );
+
+      case 8: // SEO & Marketing
+        return (
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold">{language === 'ar' ? 'التسويق والـ SEO' : 'SEO & Marketing'}</h3>
+            
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'الكلمات المفتاحية الأساسية' : 'Main Keywords'}</Label>
+              <Textarea
+                value={projectData.keywords}
+                onChange={(e) => handleInputChange('keywords', e.target.value)}
+                placeholder={language === 'ar' ? 'مثال: تصميم مواقع، متجر إلكتروني، تطوير تطبيقات' : 'Example: web design, e-commerce, app development'}
+                rows={2}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'وصف ميتا (Meta Description)' : 'Meta Description'}</Label>
+              <Textarea
+                value={projectData.metaDescription}
+                onChange={(e) => handleInputChange('metaDescription', e.target.value)}
+                placeholder={language === 'ar' ? 'وصف مختصر للموقع يظهر في نتائج البحث (150-160 حرف)' : 'Brief site description for search results (150-160 chars)')}
+                rows={2}
+                maxLength={160}
+              />
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="needsBlog"
+                checked={projectData.needsBlog}
+                onCheckedChange={(checked) => handleInputChange('needsBlog', checked)}
+              />
+              <Label htmlFor="needsBlog">{language === 'ar' ? 'أحتاج قسم مدونة للـ SEO' : 'Need Blog Section for SEO'}</Label>
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'تكاملات التسويق' : 'Marketing Integrations'}</Label>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { id: 'google_search_console', label: 'Google Search Console' },
+                  { id: 'google_analytics', label: 'Google Analytics' },
+                  { id: 'facebook_pixel', label: 'Facebook Pixel' },
+                  { id: 'tiktok_pixel', label: 'TikTok Pixel' },
+                  { id: 'google_ads', label: 'Google Ads' },
+                  { id: 'linkedin_insight', label: 'LinkedIn Insight' }
+                ].map((integration) => (
+                  <div key={integration.id} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={integration.id}
+                      checked={projectData.marketingIntegrations.includes(integration.id)}
+                      onCheckedChange={() => handleArrayToggle('marketingIntegrations', integration.id)}
+                    />
+                    <Label htmlFor={integration.id} className="text-sm">{integration.label}</Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'خطة التسويق' : 'Marketing Plan'}</Label>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { id: 'seo', label: language === 'ar' ? 'تحسين محركات البحث (SEO)' : 'Search Engine Optimization (SEO)' },
+                  { id: 'paid_ads', label: language === 'ar' ? 'الإعلانات المدفوعة' : 'Paid Advertising' },
+                  { id: 'social_media', label: language === 'ar' ? 'وسائل التواصل الاجتماعي' : 'Social Media Marketing' },
+                  { id: 'email_marketing', label: language === 'ar' ? 'التسويق بالبريد الإلكتروني' : 'Email Marketing' },
+                  { id: 'content_marketing', label: language === 'ar' ? 'تسويق المحتوى' : 'Content Marketing' },
+                  { id: 'influencer_marketing', label: language === 'ar' ? 'تسويق المؤثرين' : 'Influencer Marketing' }
+                ].map((plan) => (
+                  <div key={plan.id} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={plan.id}
+                      checked={projectData.marketingPlan.includes(plan.id)}
+                      onCheckedChange={() => handleArrayToggle('marketingPlan', plan.id)}
+                    />
+                    <Label htmlFor={plan.id} className="text-sm">{plan.label}</Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 9: // Project Management
+        return (
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold">{language === 'ar' ? 'إدارة المشروع والـ Workflow' : 'Project Management & Workflow'}</h3>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>{language === 'ar' ? 'منسق المشروع' : 'Project Coordinator'}</Label>
+                <Input
+                  value={projectData.projectCoordinator}
+                  onChange={(e) => handleInputChange('projectCoordinator', e.target.value)}
+                  placeholder={language === 'ar' ? 'اسم المسؤول عن المتابعة' : 'Name of person responsible for follow-up'}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>{language === 'ar' ? 'إيميل المنسق' : 'Coordinator Email'}</Label>
+                <Input
+                  type="email"
+                  value={projectData.coordinatorEmail}
+                  onChange={(e) => handleInputChange('coordinatorEmail', e.target.value)}
+                  placeholder={language === 'ar' ? 'البريد الإلكتروني للمنسق' : 'Coordinator email address'}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'الأشخاص المصرح لهم بالمتابعة' : 'Authorized Team Members'}</Label>
+              <Textarea
+                value={projectData.authorizedMembers.join('\n')}
+                onChange={(e) => handleInputChange('authorizedMembers', e.target.value.split('\n').filter(Boolean))}
+                placeholder={language === 'ar' ? 'أسماء وإيميلات الأشخاص المصرح لهم (سطر لكل شخص)' : 'Names and emails of authorized people (one per line)'}
+                rows={3}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'طريقة التواصل المفضلة' : 'Preferred Communication Method'}</Label>
+              <Select value={projectData.preferredCommunication} onValueChange={(value) => handleInputChange('preferredCommunication', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder={language === 'ar' ? 'اختر طريقة التواصل' : 'Select communication method'} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="email">{language === 'ar' ? 'البريد الإلكتروني' : 'Email'}</SelectItem>
+                  <SelectItem value="whatsapp">{language === 'ar' ? 'واتساب' : 'WhatsApp'}</SelectItem>
+                  <SelectItem value="slack">{language === 'ar' ? 'سلاك' : 'Slack'}</SelectItem>
+                  <SelectItem value="telegram">{language === 'ar' ? 'تيليجرام' : 'Telegram'}</SelectItem>
+                  <SelectItem value="calls">{language === 'ar' ? 'مكالمات هاتفية' : 'Phone Calls'}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'تكرار التحديثات' : 'Update Frequency'}</Label>
+              <Select value={projectData.updateFrequency} onValueChange={(value) => handleInputChange('updateFrequency', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder={language === 'ar' ? 'اختر التكرار' : 'Select frequency'} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="daily">{language === 'ar' ? 'يومي' : 'Daily'}</SelectItem>
+                  <SelectItem value="weekly">{language === 'ar' ? 'أسبوعي' : 'Weekly'}</SelectItem>
+                  <SelectItem value="milestone">{language === 'ar' ? 'عند كل مرحلة مهمة' : 'Milestone-based'}</SelectItem>
+                  <SelectItem value="as_needed">{language === 'ar' ? 'عند الحاجة' : 'As Needed'}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        );
+
+      case 10: // Future Add-ons
+        return (
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold">{language === 'ar' ? 'إضافات مستقبلية' : 'Future Add-ons'}</h3>
+            
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'الميزات التي قد تحتاجها مستقبلاً' : 'Features you might need in the future'}</Label>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { id: 'advanced_payments', label: language === 'ar' ? 'مدفوعات متقدمة (Apple Pay/Google Pay)' : 'Advanced Payments (Apple Pay/Google Pay)' },
+                  { id: 'memberships', label: language === 'ar' ? 'عضويات مدفوعة' : 'Paid Memberships' },
+                  { id: 'multi_language', label: language === 'ar' ? 'متعدد اللغات' : 'Multi-language' },
+                  { id: 'multi_vendor', label: language === 'ar' ? 'متعدد البائعين' : 'Multi-vendor' },
+                  { id: 'marketplace', label: language === 'ar' ? 'ميزات السوق الإلكتروني' : 'Marketplace Features' },
+                  { id: 'gamification', label: language === 'ar' ? 'التلعيب (نقاط - شارات)' : 'Gamification (Points - Badges)' },
+                  { id: 'ai_chatbot', label: language === 'ar' ? 'شات بوت ذكي' : 'AI Chatbot' },
+                  { id: 'ai_recommendations', label: language === 'ar' ? 'توصيات ذكية' : 'AI Recommendations' },
+                  { id: 'mobile_app', label: language === 'ar' ? 'تطبيق جوال' : 'Mobile App' },
+                  { id: 'advanced_analytics', label: language === 'ar' ? 'تحليلات متقدمة' : 'Advanced Analytics' },
+                  { id: 'crm_integration', label: language === 'ar' ? 'تكامل CRM متقدم' : 'Advanced CRM Integration' },
+                  { id: 'api_marketplace', label: language === 'ar' ? 'سوق APIs' : 'API Marketplace' }
+                ].map((addon) => (
+                  <div key={addon.id} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={addon.id}
+                      checked={projectData.futureAddons.includes(addon.id)}
+                      onCheckedChange={() => handleArrayToggle('futureAddons', addon.id)}
+                    />
+                    <Label htmlFor={addon.id} className="text-sm">{addon.label}</Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 11: // Billing & Payment
+        return (
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold">{language === 'ar' ? 'الفواتير والدفع' : 'Billing & Payment'}</h3>
+            
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'الباقة المختارة' : 'Selected Package'}</Label>
+              <Select value={projectData.selectedPackage} onValueChange={(value) => handleInputChange('selectedPackage', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder={language === 'ar' ? 'اختر الباقة' : 'Select package'} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="basic">{language === 'ar' ? 'أساسية' : 'Basic'}</SelectItem>
+                  <SelectItem value="pro">{language === 'ar' ? 'احترافية' : 'Professional'}</SelectItem>
+                  <SelectItem value="premium">{language === 'ar' ? 'مميزة' : 'Premium'}</SelectItem>
+                  <SelectItem value="enterprise">{language === 'ar' ? 'للمؤسسات' : 'Enterprise'}</SelectItem>
+                  <SelectItem value="custom">{language === 'ar' ? 'مخصصة' : 'Custom'}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'طريقة الدفع المفضلة' : 'Preferred Payment Method'}</Label>
+              <Select value={projectData.paymentMethod} onValueChange={(value) => handleInputChange('paymentMethod', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder={language === 'ar' ? 'اختر طريقة الدفع' : 'Select payment method'} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="cash">{language === 'ar' ? 'كاش' : 'Cash'}</SelectItem>
+                  <SelectItem value="bank_transfer">{language === 'ar' ? 'تحويل بنكي' : 'Bank Transfer'}</SelectItem>
+                  <SelectItem value="credit_card">{language === 'ar' ? 'بطاقة ائتمانية' : 'Credit Card'}</SelectItem>
+                  <SelectItem value="paypal">{language === 'ar' ? 'باي بال' : 'PayPal'}</SelectItem>
+                  <SelectItem value="fawry">{language === 'ar' ? 'فوري' : 'Fawry'}</SelectItem>
+                  <SelectItem value="installments">{language === 'ar' ? 'أقساط' : 'Installments'}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="font-medium">{language === 'ar' ? 'بيانات الفاتورة' : 'Billing Information'}</h4>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'الاسم في الفاتورة' : 'Billing Name'}</Label>
+                  <Input
+                    value={projectData.billingName}
+                    onChange={(e) => handleInputChange('billingName', e.target.value)}
+                    placeholder={language === 'ar' ? 'الاسم كما سيظهر في الفاتورة' : 'Name as it will appear on invoice'}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>{language === 'ar' ? 'الرقم الضريبي (اختياري)' : 'Tax Number (Optional)'}</Label>
+                  <Input
+                    value={projectData.taxNumber}
+                    onChange={(e) => handleInputChange('taxNumber', e.target.value)}
+                    placeholder={language === 'ar' ? 'الرقم الضريبي للشركة' : 'Company tax number'}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>{language === 'ar' ? 'عنوان الفاتورة' : 'Billing Address'}</Label>
+                <Textarea
+                  value={projectData.billingAddress}
+                  onChange={(e) => handleInputChange('billingAddress', e.target.value)}
+                  placeholder={language === 'ar' ? 'العنوان الكامل للفاتورة' : 'Complete billing address'}
+                  rows={2}
+                />
+              </div>
+            </div>
+          </div>
+        );
+
       default:
         return (
           <div className="text-center py-8">

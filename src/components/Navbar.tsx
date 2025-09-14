@@ -6,6 +6,7 @@ import { Menu, X, Globe, Sun, Moon } from 'lucide-react';
 
 const Navbar = () => {
   const { t, toggleLanguage, isRTL } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
@@ -23,7 +24,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <div className="text-2xl font-bold text-gradient">
-              NexusPrime
+              TrueFolio
             </div>
           </div>
 
@@ -44,13 +45,22 @@ const Navbar = () => {
 
           {/* Right side actions */}
           <div className="hidden md:flex items-center space-x-4">
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="text-muted-foreground hover:text-foreground transition-colors duration-300 p-2 rounded-lg hover:bg-primary/5"
+              title={theme === 'dark' ? t('nav.light') : t('nav.dark')}
+            >
+              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
+
             {/* Language Toggle */}
             <button
               onClick={toggleLanguage}
-              className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors duration-300"
+              className="text-muted-foreground hover:text-foreground transition-colors duration-300 p-2 rounded-lg hover:bg-primary/5"
+              title={t('nav.language')}
             >
               <Globe className="h-4 w-4" />
-              <span className="text-sm">{t('nav.language')}</span>
             </button>
 
             {/* Auth Buttons */}
@@ -63,23 +73,31 @@ const Navbar = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-4">
+          <div className="md:hidden flex items-center space-x-2">
+            {/* Mobile Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="text-muted-foreground hover:text-foreground p-2"
+            >
+              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
+
             {/* Mobile Language Toggle */}
             <button
               onClick={toggleLanguage}
-              className="text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground p-2"
             >
-              <Globe className="h-5 w-5" />
+              <Globe className="h-4 w-4" />
             </button>
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-foreground hover:text-primary"
+              className="text-foreground hover:text-primary p-2"
             >
               {isMenuOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-5 w-5" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <Menu className="h-5 w-5" />
               )}
             </button>
           </div>

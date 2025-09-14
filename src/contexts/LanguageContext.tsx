@@ -30,6 +30,12 @@ const translations = {
     'hero.cta.secondary': 'Contact Us',
     'hero.trust': 'Trusted by 10,000+ businesses worldwide',
     'hero.logo': 'Logo',
+    'hero.features.realtime': 'Real-time Tracking',
+    'hero.features.ai': 'AI-Powered',
+    'hero.features.global': 'Global Access',
+    
+    'nav.dark': 'Dark Mode',
+    'nav.light': 'Light Mode',
     
     // Features
     'features.title': 'Powerful Features for Your Success',
@@ -162,6 +168,12 @@ const translations = {
     'hero.cta.secondary': 'تواصل معانا',
     'hero.trust': 'موثوق به من أكثر من 10,000 شركة حول العالم',
     'hero.logo': 'شعار',
+    'hero.features.realtime': 'تتبع لحظي',
+    'hero.features.ai': 'مدعوم بالذكاء الاصطناعي',
+    'hero.features.global': 'وصول عالمي',
+    
+    'nav.dark': 'الوضع المظلم',
+    'nav.light': 'الوضع المضيء',
     
     // Features
     'features.title': 'مميزات قوية لنجاحك',

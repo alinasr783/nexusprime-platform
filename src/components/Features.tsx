@@ -79,12 +79,12 @@ const Features = () => {
             return (
               <div
                 key={feature.titleKey}
-                className="glass-card p-8 hover-lift group animate-slide-up"
+                className="relative bg-card/40 backdrop-blur-xl border border-border/50 rounded-xl p-8 hover-lift group animate-slide-up shadow-medium hover:shadow-large transition-all duration-300"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Icon */}
-                <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${feature.gradient} p-4 mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <Icon className="w-8 h-8 text-white" />
+                <div className="w-16 h-16 rounded-xl bg-primary/10 border border-primary/20 p-4 mb-6 group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
+                  <Icon className="w-8 h-8 text-primary" />
                 </div>
 
                 {/* Content */}

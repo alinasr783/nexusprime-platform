@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { MessageSquare, Send, Paperclip } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 interface Message {
   id: string;
@@ -24,34 +25,49 @@ export const CommunicationSection: React.FC<CommunicationSectionProps> = ({ proj
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
+  const fetchMessages = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('project_messages')
+        .select('*')
+        .eq('project_id', projectId)
+        .order('created_at', { ascending: true });
+
+      if (error) throw error;
+      setMessages(data || []);
+    } catch (err: any) {
+      console.error('Error fetching messages:', err);
+      toast({
+        title: "خطأ",
+        description: "فشل في تحميل الرسائل",
+        variant: "destructive",
+      });
+    }
+  };
+
   useEffect(() => {
-    // Initialize with dummy messages
-    setMessages([
-      {
-        id: '1',
-        project_id: projectId,
-        sender: 'مدير المشروع',
-        message: 'تم الانتهاء من التصميم المبدئي، يرجى المراجعة',
-        sender_type: 'admin',
-        created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString()
-      },
-      {
-        id: '2',
-        project_id: projectId,
-        sender: 'أنت',
-        message: 'رائع! يمكن تعديل لون الهيدر؟',
-        sender_type: 'client',
-        created_at: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString()
-      },
-      {
-        id: '3',
-        project_id: projectId,
-        sender: 'مدير المشروع',
-        message: 'بالتأكيد! ما هو اللون المفضل لديك؟',
-        sender_type: 'admin',
-        created_at: new Date(Date.now() - 30 * 60 * 1000).toISOString()
-      }
-    ]);
+    fetchMessages();
+
+    // Set up real-time subscription
+    const channel = supabase
+      .channel(`project-messages-${projectId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'project_messages',
+          filter: `project_id=eq.${projectId}`
+        },
+        () => {
+          fetchMessages();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [projectId]);
 
   const sendMessage = async () => {
@@ -59,25 +75,32 @@ export const CommunicationSection: React.FC<CommunicationSectionProps> = ({ proj
 
     setLoading(true);
     
-    // Add message to local state
-    const newMsg: Message = {
-      id: Date.now().toString(),
-      project_id: projectId,
-      sender: 'أنت',
-      message: newMessage,
-      sender_type: 'client',
-      created_at: new Date().toISOString()
-    };
-    
-    setMessages(prev => [...prev, newMsg]);
-    setNewMessage('');
-    
-    toast({
-      title: "تم الإرسال",
-      description: "تم إرسال الرسالة بنجاح"
-    });
-    
-    setLoading(false);
+    try {
+      const { error } = await supabase
+        .from('project_messages')
+        .insert({
+          project_id: projectId,
+          sender: 'العميل',
+          message: newMessage.trim(),
+          sender_type: 'client'
+        });
+
+      if (error) throw error;
+
+      setNewMessage('');
+      toast({
+        title: "تم الإرسال",
+        description: "تم إرسال الرسالة بنجاح"
+      });
+    } catch (err: any) {
+      toast({
+        title: "خطأ في الإرسال",
+        description: err.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const formatTime = (dateString: string) => {

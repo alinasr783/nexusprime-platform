@@ -27,6 +27,7 @@ import {
 
 import { useProject } from '@/hooks/useProject';
 import { usePricing } from '@/hooks/usePricing';
+import { useToast } from '@/hooks/use-toast';
 import { FileUpload } from '@/components/project/FileUpload';
 import { PaymentSection } from '@/components/project/PaymentSection';
 import { AddonsSection } from '@/components/project/AddonsSection';
@@ -55,6 +56,8 @@ const ProjectViewNew = () => {
     calculateProjectPrice,
     getProjectStats
   } = usePricing();
+
+  const { toast } = useToast();
 
   if (!id) {
     return (
@@ -109,6 +112,50 @@ const ProjectViewNew = () => {
     created_at: project.created_at,
     updated_at: project.updated_at
   });
+
+  const downloadAllFiles = async () => {
+    if (files.length === 0) {
+      toast({
+        title: "لا توجد ملفات",
+        description: "لا توجد ملفات للتحميل",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      toast({
+        title: "جاري التحميل...",
+        description: `جاري تحميل ${files.length} ملف`,
+      });
+
+      // Download each file
+      for (const file of files) {
+        const fileUrl = getFileUrl(file.file_path);
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.download = file.file_name;
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Small delay between downloads
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+
+      toast({
+        title: "تم التحميل",
+        description: "تم تحميل جميع الملفات بنجاح",
+      });
+    } catch (error) {
+      toast({
+        title: "خطأ في التحميل",
+        description: "حدث خطأ أثناء تحميل الملفات",
+        variant: "destructive",
+      });
+    }
+  };
 
   // Timeline milestones
   const milestones = [
@@ -336,9 +383,13 @@ const ProjectViewNew = () => {
                   <Eye className="h-4 w-4 ml-2" />
                   معاينة الموقع
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => downloadAllFiles()}
+                >
                   <Download className="h-4 w-4 ml-2" />
-                  تحميل الملفات
+                  تحميل الملفات ({files.length})
                 </Button>
                 <Button variant="outline" className="w-full justify-start">
                   <Settings className="h-4 w-4 ml-2" />

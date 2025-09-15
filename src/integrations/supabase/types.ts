@@ -147,6 +147,44 @@ export type Database = {
           },
         ]
       }
+      project_messages: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          project_id: string
+          sender: string
+          sender_type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: string
+          project_id: string
+          sender: string
+          sender_type: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          project_id?: string
+          sender?: string
+          sender_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_messages_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project_payments: {
         Row: {
           amount: number

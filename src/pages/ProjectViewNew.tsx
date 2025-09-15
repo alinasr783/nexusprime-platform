@@ -145,14 +145,19 @@ const ProjectViewNew = () => {
     }
   };
 
-  // Timeline milestones
-  const milestones = [
-    { id: 1, title: 'تجميع البيانات', completed: true, date: '14/9/2025' },
-    { id: 2, title: 'إعداد التصميم المبدئي', completed: true, date: '15/9/2025' },
-    { id: 3, title: 'التطوير', completed: project.progress > 40, date: '20/9/2025' },
-    { id: 4, title: 'الاختبار', completed: project.progress > 70, date: '25/9/2025' },
-    { id: 5, title: 'التسليم النهائي', completed: project.status === 'completed', date: '30/9/2025' }
+  // Get project data from database
+  const projectData = project.project_data || {};
+  
+  // Timeline milestones from project data
+  const defaultMilestones = [
+    { id: 1, title: 'تجميع البيانات', completed: true, date: projectStats.startDate },
+    { id: 2, title: 'إعداد التصميم المبدئي', completed: project.progress > 20, date: projectStats.startDate },
+    { id: 3, title: 'التطوير', completed: project.progress > 40, date: projectStats.startDate },
+    { id: 4, title: 'الاختبار', completed: project.progress > 70, date: projectStats.startDate },
+    { id: 5, title: 'التسليم النهائي', completed: project.status === 'completed', date: projectStats.expectedDelivery }
   ];
+  
+  const milestones = projectData.milestones || defaultMilestones;
 
   return (
     <div className="min-h-screen bg-background">
@@ -260,16 +265,20 @@ const ProjectViewNew = () => {
                     <div>
                       <h4 className="font-semibold mb-2 text-primary">الهوية البصرية</h4>
                       <div className="flex space-x-2 space-x-reverse mb-4">
-                        <div className="w-8 h-8 rounded-full bg-blue-500"></div>
-                        <div className="w-8 h-8 rounded-full bg-green-500"></div>
-                        <div className="w-8 h-8 rounded-full bg-purple-500"></div>
+                        {(projectData.brandColors || ['#3b82f6', '#10b981', '#8b5cf6']).map((color, index) => (
+                          <div 
+                            key={index}
+                            className="w-8 h-8 rounded-full border border-muted" 
+                            style={{ backgroundColor: color }}
+                          ></div>
+                        ))}
                       </div>
                       <p className="text-sm text-muted-foreground">الألوان الأساسية للمشروع</p>
                     </div>
                     <div>
                       <h4 className="font-semibold mb-2 text-primary">أقسام الموقع</h4>
                       <div className="flex flex-wrap gap-2">
-                        {['الرئيسية', 'من نحن', 'الخدمات', 'تواصل معنا', 'المدونة'].map((section, index) => (
+                        {(projectData.sections || ['الرئيسية', 'من نحن', 'الخدمات', 'تواصل معنا']).map((section, index) => (
                           <Badge key={index} variant="outline">{section}</Badge>
                         ))}
                       </div>
@@ -344,21 +353,24 @@ const ProjectViewNew = () => {
               </h3>
               <div className="space-y-3">
                 <div>
-                  <p className="text-sm font-medium text-primary">المرحلة الحالية: التطوير</p>
-                  <Progress value={40} className="mt-2" />
+                  <p className="text-sm font-medium text-primary">
+                    المرحلة الحالية: {projectData.currentPhase || 'التطوير'}
+                  </p>
+                  <Progress value={project.progress} className="mt-2" />
                 </div>
                 <div className="flex items-center space-x-3 space-x-reverse">
                   <Avatar className="h-8 w-8">
-                    <AvatarFallback>Dev</AvatarFallback>
+                    <AvatarImage src={projectData.developer?.avatar} />
+                    <AvatarFallback>{projectData.developer?.name?.substring(0, 2) || 'Dev'}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="text-sm font-medium">أحمد محمد</p>
-                    <p className="text-xs text-muted-foreground">مطور المشروع</p>
+                    <p className="text-sm font-medium">{projectData.developer?.name || 'مطور المشروع'}</p>
+                    <p className="text-xs text-muted-foreground">{projectData.developer?.role || 'مطور المشروع'}</p>
                   </div>
                 </div>
                 <div className="pt-2">
                   <p className="text-sm text-muted-foreground">الخطوة التالية:</p>
-                  <p className="text-sm font-medium">رفع نسخة تجريبية</p>
+                  <p className="text-sm font-medium">{projectData.nextStep || 'رفع نسخة تجريبية'}</p>
                 </div>
               </div>
             </Card>

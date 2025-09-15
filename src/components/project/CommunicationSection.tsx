@@ -3,7 +3,6 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { MessageSquare, Send, Paperclip } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 interface Message {
@@ -26,104 +25,59 @@ export const CommunicationSection: React.FC<CommunicationSectionProps> = ({ proj
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchMessages();
+    // Initialize with dummy messages
+    setMessages([
+      {
+        id: '1',
+        project_id: projectId,
+        sender: 'مدير المشروع',
+        message: 'تم الانتهاء من التصميم المبدئي، يرجى المراجعة',
+        sender_type: 'admin',
+        created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: '2',
+        project_id: projectId,
+        sender: 'أنت',
+        message: 'رائع! يمكن تعديل لون الهيدر؟',
+        sender_type: 'client',
+        created_at: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: '3',
+        project_id: projectId,
+        sender: 'مدير المشروع',
+        message: 'بالتأكيد! ما هو اللون المفضل لديك؟',
+        sender_type: 'admin',
+        created_at: new Date(Date.now() - 30 * 60 * 1000).toISOString()
+      }
+    ]);
   }, [projectId]);
-
-  const fetchMessages = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('project_messages')
-        .select('*')
-        .eq('project_id', projectId)
-        .order('created_at', { ascending: true });
-
-      if (error) throw error;
-      setMessages(data || []);
-    } catch (err: any) {
-      console.error('Error fetching messages:', err);
-      // Add dummy messages if no data
-      setMessages([
-        {
-          id: '1',
-          project_id: projectId,
-          sender: 'مدير المشروع',
-          message: 'تم الانتهاء من التصميم المبدئي، يرجى المراجعة',
-          sender_type: 'admin',
-          created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString()
-        },
-        {
-          id: '2',
-          project_id: projectId,
-          sender: 'أنت',
-          message: 'رائع! يمكن تعديل لون الهيدر؟',
-          sender_type: 'client',
-          created_at: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString()
-        },
-        {
-          id: '3',
-          project_id: projectId,
-          sender: 'مدير المشروع',
-          message: 'بالتأكيد! ما هو اللون المفضل لديك؟',
-          sender_type: 'admin',
-          created_at: new Date(Date.now() - 30 * 60 * 1000).toISOString()
-        }
-      ]);
-    }
-  };
 
   const sendMessage = async () => {
     if (!newMessage.trim() || loading) return;
 
     setLoading(true);
-    try {
-      const messageData = {
-        project_id: projectId,
-        sender: 'أنت',
-        message: newMessage,
-        sender_type: 'client' as const
-      };
-
-      const { error } = await supabase
-        .from('project_messages')
-        .insert(messageData);
-
-      if (error) {
-        // If table doesn't exist, just add to local state
-        const newMsg: Message = {
-          id: Date.now().toString(),
-          ...messageData,
-          created_at: new Date().toISOString()
-        };
-        setMessages(prev => [...prev, newMsg]);
-      } else {
-        fetchMessages();
-      }
-
-      setNewMessage('');
-      toast({
-        title: "تم الإرسال",
-        description: "تم إرسال الرسالة بنجاح"
-      });
-    } catch (err: any) {
-      // Fallback to local state
-      const newMsg: Message = {
-        id: Date.now().toString(),
-        project_id: projectId,
-        sender: 'أنت',
-        message: newMessage,
-        sender_type: 'client',
-        created_at: new Date().toISOString()
-      };
-      setMessages(prev => [...prev, newMsg]);
-      setNewMessage('');
-      
-      toast({
-        title: "تم الإرسال",
-        description: "تم إرسال الرسالة بنجاح"
-      });
-    } finally {
-      setLoading(false);
-    }
+    
+    // Add message to local state
+    const newMsg: Message = {
+      id: Date.now().toString(),
+      project_id: projectId,
+      sender: 'أنت',
+      message: newMessage,
+      sender_type: 'client',
+      created_at: new Date().toISOString()
+    };
+    
+    setMessages(prev => [...prev, newMsg]);
+    setNewMessage('');
+    
+    toast({
+      title: "تم الإرسال",
+      description: "تم إرسال الرسالة بنجاح"
+    });
+    
+    setLoading(false);
   };
 
   const formatTime = (dateString: string) => {

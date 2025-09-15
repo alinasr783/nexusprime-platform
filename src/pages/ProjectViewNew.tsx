@@ -28,6 +28,7 @@ import {
 import { useProject } from '@/hooks/useProject';
 import { usePricing } from '@/hooks/usePricing';
 import { useToast } from '@/hooks/use-toast';
+import { downloadAllFiles } from '@/utils/fileUtils';
 import { FileUpload } from '@/components/project/FileUpload';
 import { PaymentSection } from '@/components/project/PaymentSection';
 import { AddonsSection } from '@/components/project/AddonsSection';
@@ -113,45 +114,32 @@ const ProjectViewNew = () => {
     updated_at: project.updated_at
   });
 
-  const downloadAllFiles = async () => {
+  const downloadAllProjectFiles = async () => {
     if (files.length === 0) {
       toast({
         title: "لا توجد ملفات",
-        description: "لا توجد ملفات للتحميل",
+        description: "لا توجد ملفات للتحميل في هذا المشروع",
         variant: "destructive",
       });
       return;
     }
 
-    try {
-      toast({
-        title: "جاري التحميل...",
-        description: `جاري تحميل ${files.length} ملف`,
-      });
+    toast({
+      title: "جاري التحميل...",
+      description: `جاري تحميل ${files.length} ملف`,
+    });
 
-      // Download each file
-      for (const file of files) {
-        const fileUrl = getFileUrl(file.file_path);
-        const link = document.createElement('a');
-        link.href = fileUrl;
-        link.download = file.file_name;
-        link.target = '_blank';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        // Small delay between downloads
-        await new Promise(resolve => setTimeout(resolve, 500));
-      }
-
+    const success = await downloadAllFiles(files, getFileUrl);
+    
+    if (success) {
       toast({
         title: "تم التحميل",
         description: "تم تحميل جميع الملفات بنجاح",
       });
-    } catch (error) {
+    } else {
       toast({
         title: "خطأ في التحميل",
-        description: "حدث خطأ أثناء تحميل الملفات",
+        description: "حدث خطأ أثناء تحميل بعض الملفات",
         variant: "destructive",
       });
     }
@@ -386,7 +374,7 @@ const ProjectViewNew = () => {
                 <Button 
                   variant="outline" 
                   className="w-full justify-start"
-                  onClick={() => downloadAllFiles()}
+                  onClick={downloadAllProjectFiles}
                 >
                   <Download className="h-4 w-4 ml-2" />
                   تحميل الملفات ({files.length})

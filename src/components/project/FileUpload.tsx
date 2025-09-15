@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Upload, X, Download, Eye } from 'lucide-react';
+import { Upload, X, Download, Eye, ExternalLink } from 'lucide-react';
 import { ProjectFile } from '@/hooks/useProject';
+import { downloadFile, getFileIcon, formatFileSize } from '@/utils/fileUtils';
 
 interface FileUploadProps {
   files: ProjectFile[];
@@ -27,20 +28,14 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     }
   };
 
-  const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return '0 بايت';
-    const k = 1024;
-    const sizes = ['بايت', 'كيلوبايت', 'ميجابايت', 'جيجابايت'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  const handleDownload = (file: ProjectFile) => {
+    const fileUrl = onGetFileUrl(file.file_path);
+    downloadFile(fileUrl, file.file_name);
   };
 
-  const getFileIcon = (fileType: string) => {
-    if (fileType.startsWith('image/')) return '🖼️';
-    if (fileType.startsWith('video/')) return '🎥';
-    if (fileType.includes('pdf')) return '📄';
-    if (fileType.includes('word')) return '📝';
-    return '📁';
+  const handleView = (file: ProjectFile) => {
+    const fileUrl = onGetFileUrl(file.file_path);
+    window.open(fileUrl, '_blank');
   };
 
   return (
@@ -93,7 +88,8 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => window.open(onGetFileUrl(file.file_path), '_blank')}
+                      onClick={() => handleView(file)}
+                      title="عرض الصورة"
                     >
                       <Eye className="h-4 w-4" />
                     </Button>
@@ -101,12 +97,16 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => {
-                      const link = document.createElement('a');
-                      link.href = onGetFileUrl(file.file_path);
-                      link.download = file.file_name;
-                      link.click();
-                    }}
+                    onClick={() => handleView(file)}
+                    title="عرض الملف"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleDownload(file)}
+                    title="تحميل الملف"
                   >
                     <Download className="h-4 w-4" />
                   </Button>

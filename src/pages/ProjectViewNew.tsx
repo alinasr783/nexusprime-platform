@@ -30,6 +30,8 @@ import { usePricing } from '@/hooks/usePricing';
 import { FileUpload } from '@/components/project/FileUpload';
 import { PaymentSection } from '@/components/project/PaymentSection';
 import { AddonsSection } from '@/components/project/AddonsSection';
+import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
+import { CommunicationSection } from '@/components/project/CommunicationSection';
 
 const ProjectViewNew = () => {
   const { id } = useParams<{ id: string }>();
@@ -119,6 +121,11 @@ const ProjectViewNew = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <DashboardHeader 
+        title={project.name}
+        showBackButton={true}
+        onBackClick={() => window.location.href = '/dashboard'}
+      />
       <div className="max-w-7xl mx-auto p-6 space-y-8">
         {/* Project Header */}
         <Card className="p-8 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent">
@@ -245,41 +252,7 @@ const ProjectViewNew = () => {
               </TabsContent>
 
               <TabsContent value="communication" className="space-y-6">
-                <Card className="p-6">
-                  <h3 className="text-lg font-semibold mb-4 flex items-center">
-                    <MessageSquare className="h-5 w-5 ml-2" />
-                    مركز التواصل
-                  </h3>
-                  <div className="space-y-4 mb-4 max-h-64 overflow-y-auto">
-                    <div className="p-3 rounded-lg bg-muted">
-                      <div className="flex items-center space-x-2 space-x-reverse mb-2">
-                        <Avatar className="h-6 w-6">
-                          <AvatarFallback>PM</AvatarFallback>
-                        </Avatar>
-                        <span className="text-sm font-medium">مدير المشروع</span>
-                        <span className="text-xs text-muted-foreground">منذ ساعتين</span>
-                      </div>
-                      <p className="text-sm">تم الانتهاء من التصميم المبدئي، يرجى المراجعة</p>
-                    </div>
-                    <div className="p-3 rounded-lg bg-primary text-primary-foreground mr-8">
-                      <div className="flex items-center space-x-2 space-x-reverse mb-2">
-                        <span className="text-sm font-medium">أنت</span>
-                        <span className="text-xs text-primary-foreground/70">منذ ساعة</span>
-                      </div>
-                      <p className="text-sm">رائع! يمكن تعديل لون الهيدر؟</p>
-                    </div>
-                  </div>
-                  <div className="flex space-x-2 space-x-reverse">
-                    <input
-                      type="text"
-                      placeholder="اكتب رسالتك..."
-                      className="flex-1 px-3 py-2 border rounded-lg bg-background"
-                    />
-                    <Button size="sm">
-                      <MessageSquare className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </Card>
+                <CommunicationSection projectId={id!} />
               </TabsContent>
 
               <TabsContent value="billing" className="space-y-6">
